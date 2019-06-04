@@ -1,0 +1,13 @@
+name: migratory-optimization
+title: migratory-optimization
+username:
+account: mstrimas
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 943441
+bundleId: 2102055
+url: https://mstrimas.shinyapps.io/migratory-optimization/
+when: 1558544878.72084
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: README.md|data
