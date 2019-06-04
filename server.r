@@ -4,23 +4,21 @@ library(stringr)
 library(leaflet)
 library(shiny)
 
-birdscapes <- read_sf("data/birdscapes.gpkg") %>% 
-  mutate(popup = str_glue("<p><strong>{name}</strong><br>",
-                          "<strong>Status</strong>: {status}<br></p>"))
+birdscapes <- read_sf("data/birdscapes_simple.gpkg")
 
 server <- function(input, output, session) {
   
   controls <- . %>% 
     addLayersControl(
-      baseGroups = c("Light", "Dark", "Topography", "Satellite"),
+      baseGroups = c("Dark", "Light", "Topography", "Satellite"),
       overlayGroups = c("Prioritization", "ABC Birdscapes"),
       options = layersControlOptions(collapsed = FALSE),
       position = "topright")
   
   output$map <- renderLeaflet({
     leaflet(options = leafletOptions(minZoom = 1, maxZoom = 6)) %>%
-      addProviderTiles("CartoDB.Positron", group = "Light") %>%
       addProviderTiles("CartoDB.DarkMatter", group = "Dark") %>%
+      addProviderTiles("CartoDB.Positron", group = "Light") %>%
       addProviderTiles("Esri.WorldTopoMap", group = "Topography") %>% 
       addProviderTiles("Esri.WorldImagery", group = "Satellite") %>% 
       addTiles("mig-opt_wk_nc_hf/{z}/{x}/{y}.png",
@@ -29,8 +27,8 @@ server <- function(input, output, session) {
                 options = tileOptions(minZoom = 1, maxZoom = 6, 
                                       noWrap = TRUE, tms = TRUE, 
                                       opacity = 1)) %>%
-      addPolygons(data = birdscapes, group = "Birdscapes",
-                  color = "#4daf4a", weight = 2, opacity = 1,
+      addPolygons(data = birdscapes, group = "ABC Birdscapes",
+                  color = "#fff", weight = 1.5, opacity = 1,
                   fillColor = "#aaaa", fillOpacity = 0.5,
                   popup = ~ popup,
                   popupOptions = popupOptions(noWrap = TRUE)) %>% 
